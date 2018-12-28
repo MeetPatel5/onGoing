@@ -1,0 +1,40 @@
+.app {
+  height: 100vh;
+  background-color: rgb(112, 248, 155);
+  .card {
+    width: 50%;
+    height: 70%;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    .card-content {
+      .large {
+        font-size: 3.5rem;
+      }
+      .huge {
+        font-size: 3rem;
+      }
+    }
+  }
+}
+
+// .card {
+//   display: "flex";
+//   .details {
+//     display: "flex";
+//     flex-direction: "column";
+//   }
+//   .content {
+//     flex: 1 0 auto;
+//   }
+//   .cover {
+//     width: 151;
+//   }
+//   .controls {
+//     display: flex;
+//     align-items: center;
+//     padding-left: 2rem;
+//     padding-bottom: 2rem;
+//   }
+// }

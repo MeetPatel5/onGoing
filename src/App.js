@@ -1,119 +1,106 @@
 import React, { Component, Fragment } from "react";
-import { PlayerConsumer, PlayerProvider } from "./components/player";
-import ReactHowler from "react-howler";
-import "./assets/App.css";
-
-import { Button } from "@material-ui/core";
+import ReactPlayer from "react-player";
+import { Button, Card, CardContent } from "@material-ui/core";
 import {
   PlayArrowSharp,
   PauseSharp,
-  KeyboardArrowRightSharp,
-  KeyboardArrowLeftSharp,
+  SkipNextSharp,
+  SkipPreviousSharp,
   FolderOpenSharp
 } from "@material-ui/icons";
 import { Slider } from "@material-ui/lab";
 
+// Styling
+import "./assets/App.scss";
+
 class App extends Component {
   state = {
-    isPlaying: true,
-    currentSeek: 0,
-    totalLength: 0
+    url: null,
+    pip: false,
+    playing: true,
+    volume: 0.8,
+    muted: false,
+    played: 0,
+    loaded: 0,
+    duration: 0,
+    playbackRate: 1.0,
+    loop: false
   };
 
-  togglePlay = () => {
-    this.setState(prevState => {
-      return {
-        isPlaying: !prevState.isPlaying
-      };
-    });
+  playPause = () => {
+    this.setState({ playing: !this.state.playing });
   };
 
-  onLoad = () => {
+  onPlay = () => {
+    console.log("onPlay");
+    this.setState({ playing: true });
+  };
+
+  onPause = () => {
+    console.log("onPause");
+    this.setState({ playing: false });
+  };
+
+  load = url => {
     this.setState({
-      totalLength: Math.round(this.music.duration())
+      url: url
     });
   };
 
-  componentDidMount() {
-    this.interval = setInterval(() => this.getSeek(), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  getSeek = () => {
-    this.setState({
-      currentSeek: Math.round(this.music.seek()) || 0
-    });
+  onProgress = state => {
+    console.log("onProgress", state);
+    // We only want to update time slider if we are not currently seeking
+    if (!this.state.seeking) {
+      this.setState(state);
+    }
   };
 
   render() {
-    const { isPlaying } = this.state;
+    const { url, playing } = this.state;
     return (
-      <PlayerProvider>
-        <PlayerConsumer>
-          {context => {
-            const {
-              changeSong,
-              loadFiles,
-              currentSongFile,
-              playNextSong,
-              playPrevSong,
-              songFileNames,
-              songFiles
-            } = context;
-
-            const { currentSeek, totalLength } = this.state;
-
-            return (
-              <Fragment>
-                <h1>{songFileNames[currentSongFile.songIndex]}</h1>
-                <Slider value={currentSeek} min={0} max={totalLength} />
-                <h4> {totalLength}</h4>
-                <Button color="secondary" onClick={this.getSeek}>
-                  get currentSeek
-                </Button>
-                <Button color="secondary" onClick={changeSong}>
-                  Play Random Track
-                </Button>
-
-                <FolderOpenSharp onClick={loadFiles} />
-
-                <ReactHowler
-                  src={[currentSongFile.song]}
-                  playing={isPlaying}
-                  ref={ref => (this.music = ref)}
-                  onLoad={this.onLoad}
-                  onEnd={() => playNextSong(currentSongFile["songIndex"] + 1)}
-                />
-                {/* Icons */}
-                <KeyboardArrowLeftSharp
+      <div className="app">
+        <ReactPlayer
+          height={0}
+          width={0}
+          onProgress={this.onProgress}
+          url={url}
+          playing={playing}
+          controls={false}
+        />
+        <Card className="card">
+          <Button
+            variant="contained"
+            onClick={() =>
+              this.load(
+                "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3"
+              )
+            }
+          >
+            Load URL
+          </Button>
+          <CardContent className="card-content">
+            <div className="icons">
+              {url && playing ? (
+                <PauseSharp
+                  onClick={this.onPause}
                   color="secondary"
-                  onClick={() => playPrevSong(currentSongFile["songIndex"] - 1)}
+                  className="huge"
                 />
-
-                {this.state.isPlaying && songFiles.length > 0 ? (
-                  <PauseSharp
-                    onClick={songFiles.length > 0 ? this.togglePlay : null}
-                    color="primary"
-                  />
-                ) : (
-                  <PlayArrowSharp
-                    onClick={songFiles.length > 0 ? this.togglePlay : null}
-                    color="primary"
-                  />
-                )}
-                <KeyboardArrowRightSharp
+              ) : (
+                <PlayArrowSharp
+                  onClick={this.onPlay}
                   color="secondary"
-                  onClick={() => playNextSong(currentSongFile["songIndex"] + 1)}
+                  className="huge"
                 />
-                {/* Icons */}
-              </Fragment>
-            );
-          }}
-        </PlayerConsumer>
-      </PlayerProvider>
+              )}
+
+              <SkipPreviousSharp color="secondary" className="large" />
+              <SkipNextSharp color="secondary" className="large" />
+              {/* <FolderOpenSharp color="secondary"/> */}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 }
