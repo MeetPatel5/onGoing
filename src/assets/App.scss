@@ -1,22 +1,42 @@
 .app {
-  height: 100vh;
-  background-color: rgb(112, 248, 155);
-  .card {
-    width: 50%;
-    height: 70%;
-    margin: 0 auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    .card-content {
-      .large {
-        font-size: 3.5rem;
+   height: 100vh;
+   background-color: rgb(112, 248, 155);
+   .card {
+      width: 50%;
+      height: 70%;
+      margin: 0 auto;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      .card-content {
+         .large {
+            font-size: 3.5rem;
+         }
+         .huge {
+            font-size: 3rem;
+         }
       }
-      .huge {
-        font-size: 3rem;
+      input[type="range"] {
+         margin: auto;
+         appearance: none;
+         position: relative;
+         overflow: hidden;
+         height: 20px;
+         width: 100%;
+         cursor: pointer;
+         border-radius: 0;
       }
-    }
-  }
+      ::-webkit-slider-runnable-track {
+         background: #ddd;
+      }
+      ::-webkit-slider-thumb {
+         -webkit-appearance: none;
+         width: 10px; /* 1 */
+         height: 20px;
+         background: #fff;
+         box-shadow: -100vw 0 0 100vw dodgerblue;
+      }
+   }
 }
 
 // .card {
