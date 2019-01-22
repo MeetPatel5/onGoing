@@ -6,7 +6,9 @@ import {
    PauseSharp,
    SkipNextSharp,
    SkipPreviousSharp,
-   FolderOpenSharp
+   FolderOpenSharp,
+   RepeatOneSharp,
+   RepeatSharp
 } from "@material-ui/icons";
 import { PlayerConsumer, PlayerProvider } from "./components/player";
 
@@ -131,6 +133,23 @@ class App extends Component {
                                     color="secondary"
                                     className="large"
                                  />
+                                 
+                                 <RepeatSharp
+                                    onClick={() =>
+                                       console.log("Enable Play Me Again")
+                                    }
+                                    color="secondary"
+                                    className="large"
+                                 />
+                                 
+                                 <RepeatOneSharp
+                                    onClick={() =>
+                                       console.log("Disable Play Me Again")
+                                    }
+                                    color="secondary"
+                                    className="large"
+                                 />
+
                               </div>
                            </CardContent>
                         </Card>

@@ -18,7 +18,7 @@ class PlayerProvider extends Component {
          dialog.showOpenDialog(
             {
                properties: ["openFile", "multiSelections"],
-               filters: { name: "Music", extensions: ["mp3"] }
+               filters: [{ name: "Music", extensions: ["mp3","wav","ogg"] }]
             },
             files => {
                if (!files) {
