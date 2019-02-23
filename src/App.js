@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import ReactPlayer from "react-player";
 import { Card, CardContent } from "@material-ui/core";
-import {
-   PlayArrowSharp,
-   PauseSharp,
-   SkipNextSharp,
-   SkipPreviousSharp,
-   FolderOpenSharp,
-   RepeatOneSharp,
-   RepeatSharp
-} from "@material-ui/icons";
+import playSvg from "./assets/svg/play-button.svg"
+import pauseSvg from "./assets/svg/pause.svg"
+import rightArrowSvg from "./assets/svg/right-arrow.svg"
+import leftArrowSvg from "./assets/svg/left-arrow.svg"
+// import closeSvg from "./assets/svg/close.svg"
+import plusSvg from "./assets/svg/plus.svg"
 import { PlayerConsumer, PlayerProvider } from "./components/player";
 
 // Styling
@@ -84,10 +81,7 @@ class App extends Component {
                            <h3>
                               {songFileNames[currentSongFile["songIndex"]]}
                            </h3>
-                           <FolderOpenSharp
-                              color="primary"
-                              onClick={loadFiles}
-                           />
+                           <img src={plusSvg} onClick={loadFiles} alt="plusSvg" height={50} width={50}/>
                            <input
                               type="range"
                               min={0}
@@ -102,39 +96,24 @@ class App extends Component {
                            <CardContent className="card-content">
                               <div className="icons">
                                  {playing && currentSongFile["song"] ? (
-                                    <PauseSharp
-                                       onClick={this.togglePlayPause}
-                                       color="secondary"
-                                       className="huge"
-                                    />
-                                 ) : (
-                                    <PlayArrowSharp
-                                       onClick={this.togglePlayPause}
-                                       color="secondary"
-                                       className="huge"
-                                    />
-                                 )}
+                                    <img onClick={this.togglePlayPause} height={50} width={50} src={pauseSvg} alt="pauseSvg"/>
+                                    ) : (
+                                       <img onClick={this.togglePlayPause} height={50} width={50} src={playSvg} alt="playSvg"/>
+                                    )}
 
-                                 <SkipPreviousSharp
-                                    onClick={() => {
+                                 <img src={leftArrowSvg} height={50} width={50}  onClick={() => {
                                        playPrevSong(
                                           currentSongFile["songIndex"] - 1
                                        );
-                                    }}
-                                    color="secondary"
-                                    className="large"
-                                 />
-                                 <SkipNextSharp
-                                    onClick={() =>
+                                    }}  alt="leftArrowSvg"/>
+                                 
+                                 <img src={rightArrowSvg} onClick={() =>
                                        playNextSong(
                                           currentSongFile["songIndex"] + 1
                                        )
-                                    }
-                                    color="secondary"
-                                    className="large"
-                                 />
+                                    } height={50} width={50}  alt="rightArrowSvg"/>
                                  
-                                 <RepeatSharp
+                                 {/* <RepeatSharp
                                     onClick={() =>
                                        console.log("Enable Play Me Again")
                                     }
@@ -148,8 +127,7 @@ class App extends Component {
                                     }
                                     color="secondary"
                                     className="large"
-                                 />
-
+                                 /> */}
                               </div>
                            </CardContent>
                         </Card>
